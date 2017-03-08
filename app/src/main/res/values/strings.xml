@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">AndroidApp</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="login">login</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="navMenu">Menu</string>
+    <string name="user">Grygorii Demchenko</string>
+    <string name="description">bla bla bla bla bla bla bla bla bla bla bla bla bla bla</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
