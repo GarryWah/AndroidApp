@@ -1,11 +1,9 @@
-package com.example.admin.androidapp;
+package com.example.admin.androidapp.models;
 
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -34,5 +32,5 @@ public interface ApiService {
     @PUT("data/Users/{id}")
     @Headers({"application-id:892B27F2-C4C2-42E0-FF52-5EAD8C9A4400",
             "secret-key:8E7D3E2E-384F-D83F-FF78-8C521B5FC800"})
-    Call<UserResponse> setUserInfo(@Path("id") String id,@Body UserRequest userRequest);
+    Call<UserResponse> setUserInfo(@Path("id") String id, @Body UserRequest userRequest);
 }

@@ -1,25 +1,27 @@
-package com.example.admin.androidapp;
+package com.example.admin.androidapp.activities;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.admin.androidapp.R;
+import com.example.admin.androidapp.fragments.CommunityFragment;
+import com.example.admin.androidapp.fragments.HomeFragment;
+import com.example.admin.androidapp.fragments.ProfileFragment;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class MenuActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        onNavigationItemSelected(navigationView.getMenu().getItem(1));
     }
 
     @Override
@@ -50,41 +53,36 @@ public class MenuActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = null;
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            fragmentManager.beginTransaction().replace(R.id.content_menu, new HomeFragment()).commit();
-
-//            Intent intent = new Intent(MenuActivity.this, HomeActivity.class);
-//            startActivity(intent);
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-            fragmentManager.beginTransaction().replace(R.id.content_menu, new ProfileFragment()).commit();
-//            Intent intent = new Intent(MenuActivity.this, ProfileActivity.class);
-//            startActivity(intent);
-        } else if (id == R.id.nav_slideshow) {
-            fragmentManager.beginTransaction().replace(R.id.content_menu, new CommunityFragment()).commit();
-//            Intent intent = new Intent(MenuActivity.this, CommunityActivity.class);
-//            startActivity(intent);
-
-        } else if (id == R.id.nav_share) {
-            SharedPreferences sharedPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
-            boolean remember = sharedPreferences.getBoolean("remember", false);
-            sharedPreferences.edit().clear().commit();
-            if (remember)
-                sharedPreferences.edit().putBoolean("remember", true).apply();
-            Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
+        switch (id) {
+            case R.id.nav_location_weather:
+                fragment = new HomeFragment();
+                break;
+            case R.id.nav_profile:
+                fragment = new ProfileFragment();
+                break;
+            case R.id.nav_community:
+                fragment = new CommunityFragment();
+                break;
+            case R.id.nav_logout:
+                sharedPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+                boolean remember = sharedPreferences.getBoolean("remember", false);
+                sharedPreferences.edit().clear().commit();
+                if (remember)
+                    sharedPreferences.edit().putBoolean("remember", true).apply();
+                Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
         }
-
-
+        fragmentManager.beginTransaction().replace(R.id.content_menu, fragment).commit();
+        item.setChecked(true);
+        getSupportActionBar().setTitle(item.getTitle());
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

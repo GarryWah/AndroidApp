@@ -1,4 +1,4 @@
-package com.example.admin.androidapp;
+package com.example.admin.androidapp.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,11 +6,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.admin.androidapp.models.Model;
+import com.example.admin.androidapp.R;
 
 import java.util.ArrayList;
 
@@ -47,7 +48,7 @@ public class CommunityFragmentAdapter extends RecyclerView.Adapter<CommunityFrag
         this.listener = communityFragmentClickListener;
     }
 
-    interface OnCommunityFragmentClickListener {
+    public interface OnCommunityFragmentClickListener {
         void onItemClick(int position);
     }
 
@@ -73,6 +74,7 @@ public class CommunityFragmentAdapter extends RecyclerView.Adapter<CommunityFrag
                     }
                 }
             });
+
         }
 
         public void bind(Model model) {
@@ -80,5 +82,7 @@ public class CommunityFragmentAdapter extends RecyclerView.Adapter<CommunityFrag
             tvText2.setText(model.getDescription());
             Glide.with(context).load(model.getPhoto()).into(imageView);
         }
+
     }
+
 }

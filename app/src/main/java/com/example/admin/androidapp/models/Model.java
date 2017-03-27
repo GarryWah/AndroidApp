@@ -1,4 +1,4 @@
-package com.example.admin.androidapp;
+package com.example.admin.androidapp.models;
 
 /**
  * Created by Admin on 3/5/2017.
@@ -7,6 +7,15 @@ public class Model {
     private String name;
     private String description;
     private String photo;
+    private String objectId;
+
+    public String getId() {
+        return objectId;
+    }
+
+    public void setId(String id) {
+        this.objectId = id;
+    }
 
     public String getName() {
         return name;

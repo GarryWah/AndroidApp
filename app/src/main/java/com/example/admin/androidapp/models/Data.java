@@ -1,4 +1,4 @@
-package com.example.admin.androidapp;
+package com.example.admin.androidapp.models;
 
 import java.util.ArrayList;
 

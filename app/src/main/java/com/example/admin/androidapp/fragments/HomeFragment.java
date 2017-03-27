@@ -1,4 +1,4 @@
-package com.example.admin.androidapp;
+package com.example.admin.androidapp.fragments;
 
 import android.Manifest;
 import android.content.Context;
@@ -17,22 +17,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.example.admin.androidapp.models.ApiService;
+import com.example.admin.androidapp.models.Main;
+import com.example.admin.androidapp.R;
+import com.example.admin.androidapp.models.WeatherResponse;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import io.nlopez.smartlocation.OnLocationUpdatedListener;
-import io.nlopez.smartlocation.OnReverseGeocodingListener;
-import io.nlopez.smartlocation.SmartLocation;
-import io.nlopez.smartlocation.location.LocationProvider;
 import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesProvider;
-import io.nlopez.smartlocation.location.providers.MultiFallbackProvider;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,7 +40,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Admin on 3/5/2017.
  */
 
-public class HomeFragment extends Fragment  {
+public class HomeFragment extends Fragment {
     private GoogleMap map;
     MapView mMapView;
     private LocationGooglePlayServicesProvider provider;
@@ -56,10 +53,11 @@ public class HomeFragment extends Fragment  {
     private final static String API_BASE_URL = "http://api.openweathermap.org/";
     private final static String API_TOKEN = "b6b1580e9d2a1d5b8668a36738565c3c";
     private final static String UNITS = "metric";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.home_fragment, container, false);
+        View view = inflater.inflate(R.layout.home_fragment, container, false);
         mMapView = (MapView) view.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
@@ -90,10 +88,10 @@ public class HomeFragment extends Fragment  {
                     return;
                 }
 
-                currentlocation = locationManager.getLastKnownLocation(bestprovider);
-                latitude=currentlocation.getLatitude();
-                longitude=currentlocation.getLongitude();
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, new LocationListener() {
+                currentlocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                latitude = currentlocation.getLatitude();
+                longitude = currentlocation.getLongitude();
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100, 1, new LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
                         latitude = location.getLatitude();
@@ -115,36 +113,36 @@ public class HomeFragment extends Fragment  {
 
                     }
                 });
-                LatLng coord=new LatLng(latitude,longitude);
+                LatLng coord = new LatLng(latitude, longitude);
                 map.addMarker(new MarkerOptions().position(coord));
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(coord,14));
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(coord, 14));
 
 
-                Retrofit retrofit=new Retrofit.Builder()
+                Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(API_BASE_URL)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
-                final ApiService service=retrofit.create(ApiService.class);
-                Call<WeatherResponse> call = service.getWeatherByCoord(API_TOKEN, String.valueOf(latitude),String.valueOf(longitude), UNITS);
+                final ApiService service = retrofit.create(ApiService.class);
+                Call<WeatherResponse> call = service.getWeatherByCoord(API_TOKEN, String.valueOf(latitude), String.valueOf(longitude), UNITS);
                 call.enqueue(new Callback<WeatherResponse>() {
                     @Override
                     public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                        Log.e("Tag",String.valueOf(response.raw()));
+                        Log.e("Tag", String.valueOf(response.raw()));
 
-                        WeatherResponse weatherResponse=response.body();
-                        if(response.isSuccessful()){
-                            Main main=weatherResponse.getMain();
-                            double temp=main.getTemp();
-                            Log.e("Tag",String.valueOf(temp));
-                            String txt=tv2.getText().toString();
-                            tv2.setText(txt+" "+String.valueOf(temp));
+                        WeatherResponse weatherResponse = response.body();
+                        if (response.isSuccessful()) {
+                            Main main = weatherResponse.getMain();
+                            double temp = main.getTemp();
+                            Log.e("Tag", String.valueOf(temp));
+                            String txt = tv2.getText().toString();
+                            tv2.setText(txt + " " + String.valueOf(temp));
                         }
 
                     }
 
                     @Override
                     public void onFailure(Call<WeatherResponse> call, Throwable t) {
-                        Log.e("Tag",t.getLocalizedMessage());
+                        Log.e("Tag", t.getLocalizedMessage());
                     }
                 });
 
@@ -154,6 +152,7 @@ public class HomeFragment extends Fragment  {
         return view;
 
     }
+
     @Override
     public void onResume() {
         super.onResume();

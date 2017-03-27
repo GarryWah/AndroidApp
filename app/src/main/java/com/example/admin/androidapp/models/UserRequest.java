@@ -1,9 +1,11 @@
-package com.example.admin.androidapp;
+package com.example.admin.androidapp.models;
 
 /**
  * Created by Admin on 3/5/2017.
  */
 public class UserRequest {
+
+
     private String name;
     private String description;
 
@@ -11,4 +13,6 @@ public class UserRequest {
         this.name = name;
         this.description = description;
     }
+
+
 }
