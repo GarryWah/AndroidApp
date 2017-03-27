@@ -22,6 +22,7 @@ import com.example.admin.androidapp.R;
 import com.example.admin.androidapp.models.UserResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,7 +38,7 @@ public class CommunityFragment extends Fragment {
     private RecyclerView recyclerView;
     private CommunityFragmentAdapter adapter;
     private String API_BASE_URL = "http://api.backendless.com/v1/";
-    private ArrayList<Model> models = new ArrayList<>();
+    private List<Model> models = new ArrayList<>();
 
     @Nullable
     @Override
@@ -69,7 +70,7 @@ public class CommunityFragment extends Fragment {
                 Log.e("Tag", String.valueOf(response.raw()));
                 Data communityResponse = response.body();
                 if (response.isSuccessful()) {
-                    ArrayList<UserResponse> userResponses = communityResponse.getData();
+                   List<UserResponse> userResponses = communityResponse.getData();
                     Log.e("Tag", String.valueOf(userResponses.size()));
                     for (UserResponse userResponse : userResponses) {
                         Model model = new Model();

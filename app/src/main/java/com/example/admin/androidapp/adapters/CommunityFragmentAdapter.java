@@ -14,16 +14,17 @@ import com.example.admin.androidapp.models.Model;
 import com.example.admin.androidapp.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Admin on 3/5/2017.
  */
 public class CommunityFragmentAdapter extends RecyclerView.Adapter<CommunityFragmentAdapter.ItemViewHolder> {
-    private ArrayList<Model> models;
+    private List<Model> models;
     private Context context;
     private OnCommunityFragmentClickListener listener;
 
-    public CommunityFragmentAdapter(ArrayList<Model> models, Context context) {
+    public CommunityFragmentAdapter(List<Model> models, Context context) {
         this.models = models;
         this.context = context;
     }
